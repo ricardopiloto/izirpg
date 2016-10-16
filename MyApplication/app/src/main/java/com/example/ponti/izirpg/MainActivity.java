@@ -2,14 +2,18 @@ package com.example.ponti.izirpg;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import android.view.View;
+import android.widget.Toast;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import java.sql.Statement;
 
 public class MainActivity extends AppCompatActivity {
+    // Variables definition
+    String SQL, pname;
+    Integer i = 0;
+    Statement stm = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,30 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public static void Consulta() throws SQLException, IOException{
-        // Variables definition
-        String SQL;
-        Integer i=0;
-        Statement stm = null;
+    public void onButtonTap(){
+        pname = "William Pendragon";
 
-        // Informs which drive will be used
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-        }catch(ClassNotFoundException e){
-            System.out.println("Aonde esta o Driver?"); //in case it doesn't find the drivers
-            e.printStackTrace();
-            return;
-        }
-
-        Connection connection = null;
-
-        try{
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/rpg","root", "");
-        }catch(SQLException e){
-            System.out.println("Ocorreu um erro de conexao! Verifique o log");
-            e.printStackTrace();
-            return;
-        }
     }
 }
