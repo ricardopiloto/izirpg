@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="#2a51a1"
+    android:gravity="center"
     android:layout_height="match_parent">
-    <EditText android:id="@+id/edit_message"
-        android:layout_weight="1"
-        android:layout_width="0dp"
+
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_message" />
+        android:inputType="textEmailAddress"
+        android:hint="email"
+        android:textAlignment="center"
+        android:ems="10"
+        android:id="@+id/email" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="senha"
+        android:textAlignment="center"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/pass" />
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="@string/button_send" />
-        android:onClick="GetName"
+        android:text="ENTRAR"
+        android:id="@+id/btnLogin" />
+
+    <TextView
+        android:text="Crie um cadastro"
+        android:textAlignment="center"
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtCadastro" />
 </LinearLayout>
