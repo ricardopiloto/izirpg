@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import java.sql.Statement;
-
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     @Override
@@ -17,11 +15,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** Called when the user clicks the Send button */
-    public void GetName(View view) {
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
+    public void sendMessage(View view){
+        /*Intent intent = new Intent(this, DisplayMessageActivity.class);
         EditText editText = (EditText) findViewById(R.id.edit_message);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+        startActivity(intent);*/
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute();
     }
 }
