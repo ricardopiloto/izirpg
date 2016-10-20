@@ -39,11 +39,26 @@ public class MainActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                // Checks network status
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
-                    new RequestData().execute(stringUrl);
+
+                    String mail = email.getText().toString();
+                    String password = pass.getText().toString();
+
+                    if (mail.isEmpty() || password.isEmpty()){
+                        Toast.makeText(getApplicationContext(),
+                                "Nenhum campo pode estar vazio",
+                                Toast.LENGTH_LONG).show();
+                    }else {
+                        url = "http://localhost/izirpg/index.php";
+                        //url = "http://localhost/android/html/index.php";
+                        //param = "email=" + mail + "&pass=" + password;
+                        param = "char_name=" + email;
+                        new RequestData().execute(url,param);
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Nenhuma conexão ativa", Toast.LENGTH_LONG).show();
@@ -54,12 +69,29 @@ public class MainActivity extends AppCompatActivity {
     private class RequestData extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
+
             return Connection.postDados(url,param);
+            //return GetCharList.requestChars(url,param);
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            textView.setText(result);
+            //email.setText(result);
+            //textView.setText(result);
+            if(result.contains("login_ok")){
+                Intent openChar = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(openChar);
+            }else{
+                Toast.makeText(getApplicationContext(),
+                        "Usuário ou senha incorretos",
+                        Toast.LENGTH_LONG).show();
+            }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }
