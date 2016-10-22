@@ -14,28 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
-    EditText email,pass;
     Button btnLogin;
-    TextView txtCadastro;
-    String url="", param="";
+    String url = "http://localhost/android/webservices/json_code.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        email = (EditText)findViewById(R.id.email);
-        pass = (EditText)findViewById(R.id.pass);
         btnLogin = (Button)findViewById(R.id.btnLogin);
-        txtCadastro = (TextView)findViewById(R.id.txtCadastro);
-
-        txtCadastro.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent abreCadastro = new Intent(MainActivity.this, RegisterScreen.class);
-                startActivity(abreCadastro);
-            }
-        });
 
         btnLogin.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -44,21 +31,7 @@ public class MainActivity extends AppCompatActivity {
                         getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
-
-                    String mail = email.getText().toString();
-                    String password = pass.getText().toString();
-
-                    if (mail.isEmpty() || password.isEmpty()){
-                        Toast.makeText(getApplicationContext(),
-                                "Nenhum campo pode estar vazio",
-                                Toast.LENGTH_LONG).show();
-                    }else {
-                        url = "http://localhost/izirpg/index.php";
-                        //url = "http://localhost/android/html/index.php";
-                        //param = "email=" + mail + "&pass=" + password;
-                        param = "char_name=" + email;
-                        new RequestData().execute(url,param);
-                    }
+                    new GetCharList().requestChars(url);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Nenhuma conexão ativa", Toast.LENGTH_LONG).show();
@@ -66,29 +39,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private class RequestData extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-
-            return Connection.postDados(url,param);
-            //return GetCharList.requestChars(url,param);
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            //email.setText(result);
-            //textView.setText(result);
-            if(result.contains("login_ok")){
-                Intent openChar = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(openChar);
-            }else{
-                Toast.makeText(getApplicationContext(),
-                        "Usuário ou senha incorretos",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
