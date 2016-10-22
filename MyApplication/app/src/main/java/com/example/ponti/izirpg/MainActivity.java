@@ -13,8 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static com.example.ponti.izirpg.R.id.btnGetChars;
+import static com.example.ponti.izirpg.R.id.btnLogin;
+
 public class MainActivity extends AppCompatActivity {
-    Button btnLogin;
+    Button btnCharList;
     String url = "http://localhost/android/webservices/json_code.php";
 
     @Override
@@ -22,26 +25,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnLogin = (Button)findViewById(R.id.btnLogin);
+        btnCharList = (Button)findViewById(btnGetChars);
 
-        btnLogin.setOnClickListener(new View.OnClickListener(){
+        btnCharList.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                // Checks network status
-                ConnectivityManager connMgr = (ConnectivityManager)
-                        getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    new GetCharList().requestChars(url);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Nenhuma conexão ativa", Toast.LENGTH_LONG).show();
-                }
+                //new GetCharList().requestChars(url);
+                Intent CharList = new Intent(MainActivity.this, CharList.class);
+                startActivity(CharList);
             }
         });
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
     }
 }
